@@ -12,7 +12,6 @@ function DateExist(fecha) {
 }
 
 // console.log(date1)
-
 // id=ufo-table class = table table-striped (table)
 // class = form-control, id= datetime (button)
 // id: filter-btn class: btn btn-default
@@ -31,22 +30,54 @@ Boton_Filter.on("click", function() {
     // Select the current count
     console.log("hizo click");
     var DateInput = document.getElementById("datetime").value;
-    console.log(DateInput);
-    var sigo = DateExist(DateInput);
-    // console.log(sigo);
-    switch(sigo) {
+    console.log(DateInput)
+    console.log(DateInput.length)
+    if (DateInput.length == 0) {
+        console.log("sin filtro la tabla");
+        Print_(tableData, DateInput);
+    } else {
+        var sigo = DateExist(DateInput);
+        //    console.log(sigo);
+        switch(sigo) {
         case true:
             console.log(`si es fecha ${DateInput} `);
-          break;
-        case 3:
-          // code block
-          break;
+            Print_(tableData, DateInput)
+            break;
         default:
-          // code block
+          // code block 
           console.log(`no es una fecha: ${DateInput} `);
+          break;
       }
+    }
 });
 
+
+// function Print_(tableData1, startDate){
+    
+// var resultProductData = tableData1.filter(a => {
+//     var date = new Date(a.datetime).toLocaleDateString("en-US");
+//         console.log(date);
+//         console.log(new Date(startDate).toLocaleDateString("en-US"));
+//       return (date == new Date(startDate).toLocaleDateString("en-US"));
+//     });
+    
+//     console.log(resultProductData);
+// }
+
+function Print_(tableData1, startDate){
+    
+var resultProductData =  tableData1.filter(a => {
+    var date = new Date(a.datetime).toLocaleDateString("en-US");
+        // console.log(date);
+        // console.log(new Date(startDate).toLocaleDateString("en-US"));
+        if (startDate.length != 0) {
+            return (date == new Date(startDate).toLocaleDateString("en-US"));
+        } else {
+            return (date == date);
+        }
+    });
+    console.log(resultProductData);
+}
 
 
 // d3.select("datetime").setAttribute('value','My default value');
