@@ -1,5 +1,16 @@
 // from data.js
-var tableData = data;
+// var tableData = data;
+
+var tableData = [{
+    datetime: "1/1/2010",
+    city: "benton",
+    state: "ar",
+    country: "us",
+    shape: "circle",
+    durationMinutes: "5 mins.",
+    comments: "4 bright green circles high in the sky going in circles then one bright green light at my front door."
+  }
+]
 
 // YOUR CODE HERE!
 
@@ -10,19 +21,6 @@ function DateExist(fecha) {
     var y = fechaf[2];
     return (m > 0 && m < 13 && y > 0 && y < 32768 && d > 0 && d <= 31 && y.length == 4);
 }
-
-// console.log(date1)
-// id=ufo-table class = table table-striped (table)
-// class = form-control, id= datetime (button)
-// id: filter-btn class: btn btn-default
-// var table_ = d3.select('#ufo-table');
-// // var boton = d3.select('luis');
-// d3.select('luis').value="01/02/2021";
-// var boton = document.getElementById('luis');
-// boton.text = "yo soy"
-// console.log(boton);
-// var clase = table_.attr("class");
-// console.log(clase);
 
 var Boton_Filter = d3.select(".btn-default");
 
@@ -52,18 +50,6 @@ Boton_Filter.on("click", function() {
 });
 
 
-// function Print_(tableData1, startDate){
-    
-// var resultProductData = tableData1.filter(a => {
-//     var date = new Date(a.datetime).toLocaleDateString("en-US");
-//         console.log(date);
-//         console.log(new Date(startDate).toLocaleDateString("en-US"));
-//       return (date == new Date(startDate).toLocaleDateString("en-US"));
-//     });
-    
-//     console.log(resultProductData);
-// }
-
 function Print_(tableData1, startDate){
     
 var resultProductData =  tableData1.filter(a => {
@@ -77,7 +63,18 @@ var resultProductData =  tableData1.filter(a => {
         }
     });
     console.log(resultProductData);
+    
+    var empTab = document.getElementById('ufo-table');
+    var tbody_ = document.getElementById("ufo-table").tBodies[0]
+    console.log(tbody_)
+    // var rowCnt = tbody_.rows.length;    // get the number of rows.
+    var tr = tbody_.insertRow(); // table row.
+    // tr = empTab.insertRow(rowCnt);
+
+    for (var c = 0; c < 4; c++) {
+        var td = document.createElement('td');  // TABLE BODY.
+        td = tr.insertCell(c);
+        let text = document.createTextNode("Text1")
+        td.appendChild(text)};
 }
-
-
-// d3.select("datetime").setAttribute('value','My default value');
+// =======================================
