@@ -49,10 +49,8 @@ Boton_Filter.on("click", function() {
     }
 });
 
-
-function Print_(tableData1, startDate){
-    
-var resultProductData =  tableData1.filter(a => {
+function Print_(tableData1, startDate){    
+    var resultData = tableData1.filter(a => {
     var date = new Date(a.datetime).toLocaleDateString("en-US");
         // console.log(date);
         // console.log(new Date(startDate).toLocaleDateString("en-US"));
@@ -62,19 +60,54 @@ var resultProductData =  tableData1.filter(a => {
             return (date == date);
         }
     });
-    console.log(resultProductData);
+    console.log(resultData);
     
-    var empTab = document.getElementById('ufo-table');
-    var tbody_ = document.getElementById("ufo-table").tBodies[0]
+    let empTab = document.getElementById('ufo-table');
+    let tbody_ = document.getElementById("ufo-table").tBodies[0]
+    tbody_.lastChild.remove();
+    // $("#Your_Table tr>td").remove();
+    
     console.log(tbody_)
     // var rowCnt = tbody_.rows.length;    // get the number of rows.
-    var tr = tbody_.insertRow(); // table row.
+    let tr = tbody_.insertRow(); // table row.
     // tr = empTab.insertRow(rowCnt);
 
-    for (var c = 0; c < 4; c++) {
+    resultData.forEach((view) => {
+        // Iterate through each key and value
         var td = document.createElement('td');  // TABLE BODY.
-        td = tr.insertCell(c);
-        let text = document.createTextNode("Text1")
-        td.appendChild(text)};
+        Object.entries(view).forEach(([key, value]) => {
+            td = tr.insertCell();
+            let text = document.createTextNode(value);
+            td.appendChild(text)
+            // console.log(value);
+          // Use the key to determine which array to push the value to
+        });
+    });
 }
+
+let empTab = document.getElementById('ufo-table');
+let tbody_ = document.getElementById("ufo-table").tBodies[0]
+
+var tr = tbody_.insertRow();
+tableData.forEach((view) => {
+    // Iterate through each key and value
+    var td = document.createElement('td');  // TABLE BODY.
+    Object.entries(view).forEach(([key, value]) => {
+        td = tr.insertCell();
+        let text = document.createTextNode(value);
+        td.appendChild(text)
+        // console.log(value);
+      // Use the key to determine which array to push the value to
+    });
+});
+
+
 // =======================================
+
+
+
+
+
+
+
+
