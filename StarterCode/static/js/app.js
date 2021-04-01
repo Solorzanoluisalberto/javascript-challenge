@@ -1,16 +1,16 @@
 // from data.js
-// var tableData = data;
+var tableData = data;
 
-var tableData = [{
-    datetime: "1/1/2010",
-    city: "benton",
-    state: "ar",
-    country: "us",
-    shape: "circle",
-    durationMinutes: "5 mins.",
-    comments: "4 bright green circles high in the sky going in circles then one bright green light at my front door."
-  }
-]
+// var tableData = [{
+//     datetime: "1/1/2010",
+//     city: "benton",
+//     state: "ar",
+//     country: "us",
+//     shape: "circle",
+//     durationMinutes: "5 mins.",
+//     comments: "4 bright green circles high in the sky going in circles then one bright green light at my front door."
+//   }
+// ]
 
 // YOUR CODE HERE!
 
@@ -85,12 +85,12 @@ function Print_(tableData1, startDate){
     });
 }
 
-let empTab = document.getElementById('ufo-table');
-let tbody_ = document.getElementById("ufo-table").tBodies[0]
+var empTab = document.getElementById('ufo-table');
+var tbody_ = document.getElementById("ufo-table").tBodies[0]
 
-var tr = tbody_.insertRow();
 tableData.forEach((view) => {
     // Iterate through each key and value
+    var tr = tbody_.insertRow();
     var td = document.createElement('td');  // TABLE BODY.
     Object.entries(view).forEach(([key, value]) => {
         td = tr.insertCell();
@@ -99,8 +99,8 @@ tableData.forEach((view) => {
         // console.log(value);
       // Use the key to determine which array to push the value to
     });
+    
 });
-
 
 // =======================================
 
