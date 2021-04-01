@@ -27,8 +27,7 @@ button_Filter.on("click", function() {
     // Select the current count
     console.log("clicked");
     DateInput = document.getElementById("datetime").value;
-    console.log(DateInput)
-    console.log(DateInput.length)
+    console.log(DateInput);
     if (DateInput.length == 0) { // date value empty
         console.log("without filter the dataset");
         console.log(DateInput);
@@ -42,10 +41,11 @@ button_Filter.on("click", function() {
             console.log(`date ok! ${DateInput}`);
             var UFO_sighting = tableData.filter(Filter_UFO_sighting, DateInput);
             console.log(UFO_sighting);
-            Print_(UFO_sighting)
+            Print_(UFO_sighting);
             break;
         default:
-            console.log(`no es una fecha: ${DateInput} `);
+            console.log(`it is not a valid date: ${DateInput} `);
+            alert("The date entered: " + DateInput + " is not a valid Date \nUse: mm/dd/yyyy format");
             break;
       }
     }
@@ -59,7 +59,6 @@ function Print_(UFO_sighting){
     let tbody_ = document.getElementById("ufo-table").tBodies[0]
     // 
     if (tbody_ != null) {
-        console.log("exist <tr> in <tbody>");
         UFOTab.removeChild(tbody_);
 		tbody_ = document.createElement('tbody')
         UFOTab.append(tbody_)
