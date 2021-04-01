@@ -66,19 +66,18 @@ function Print_(tableData1, startDate){
     let tbody_ = document.getElementById("ufo-table").tBodies[0]
     tbody_.lastChild.remove();
     // $("#Your_Table tr>td").remove();
-    
-    console.log(tbody_)
+    console.log(tbody_);
     // var rowCnt = tbody_.rows.length;    // get the number of rows.
-    let tr = tbody_.insertRow(); // table row.
+    // table row.
     // tr = empTab.insertRow(rowCnt);
-
     resultData.forEach((view) => {
+        let tr = tbody_.insertRow(); 
         // Iterate through each key and value
         var td = document.createElement('td');  // TABLE BODY.
         Object.entries(view).forEach(([key, value]) => {
             td = tr.insertCell();
             let text = document.createTextNode(value);
-            td.appendChild(text)
+            td.appendChild(text);
             // console.log(value);
           // Use the key to determine which array to push the value to
         });
@@ -86,7 +85,7 @@ function Print_(tableData1, startDate){
 }
 
 var empTab = document.getElementById('ufo-table');
-var tbody_ = document.getElementById("ufo-table").tBodies[0]
+var tbody_ = document.getElementById("ufo-table").tBodies[0];
 
 tableData.forEach((view) => {
     // Iterate through each key and value
@@ -95,11 +94,11 @@ tableData.forEach((view) => {
     Object.entries(view).forEach(([key, value]) => {
         td = tr.insertCell();
         let text = document.createTextNode(value);
-        td.appendChild(text)
+        td.appendChild(text);
         // console.log(value);
       // Use the key to determine which array to push the value to
     });
-    
+
 });
 
 // =======================================
