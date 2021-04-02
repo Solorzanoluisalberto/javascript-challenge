@@ -11,7 +11,6 @@ var tableData = data;
 //     comments: "4 bright green circles high in the sky going in circles then one bright green light at my front door."
 //   }
 // ]
-
 // YOUR CODE HERE!
 
 // =======================================
@@ -53,25 +52,27 @@ button_Filter.on("click", function() {
 // =======================================================================
 
 // =======================================================================
-// function to populate ufo-table in DOM
+// function to populate ufo-table use d3
 function Print_(UFO_sighting){        
-    let UFOTab = document.getElementById('ufo-table');
-    let tbody_ = document.getElementById("ufo-table").tBodies[0]
-    // 
-    if (tbody_ != null) {
-        UFOTab.removeChild(tbody_);
-		tbody_ = document.createElement('tbody')
-        UFOTab.append(tbody_)
+    let UFOTab = d3.select('ufo-table');
+    let tbody_=d3.select("tbody");
+    var tr_ = tbody_.selectAll("tr")._groups;
+    // console.log(tr_[0].length);
+    // console.log(tr_);
+    if (tr_[0].length != 0) { // if the table has rows do
+       for (let i = 0; i < tr_[0].length; i++) {
+        tr_[0][i].remove();
+        }
     }
-    console.log(tbody_);
     UFO_sighting.forEach((sighting) => {
-        let tr = tbody_.insertRow(); 
-        // Iterate through each key and value
-        var td = document.createElement('td');  // TABLE BODY.
-        Object.entries(sighting).forEach(([key, value]) => {
-            td = tr.insertCell();
-            let text = document.createTextNode(value);
-            td.appendChild(text);
+    let row = tbody_.append("tr");
+    // Iterate through each key and value
+     // TABLE BODY.
+    Object.entries(sighting).forEach(([key, value]) => {
+        // td = tr.insertCell()
+        // let text = value;
+        var td = row.append("td");
+        td.text(value);
         });
     });
 }
