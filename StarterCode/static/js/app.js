@@ -17,7 +17,7 @@ var tableData = data;
 Print_(tableData); // one time (upload page)
 // =======================================
 
-var button_Filter = d3.select(".btn-default"); // select element buton
+var button_Filter = d3.select("#filter-btn"); // select element buton filter
 var DateInput = ""
 
 // =============================================================================
@@ -25,8 +25,8 @@ var DateInput = ""
 button_Filter.on("click", function() {
     // Select the current count
     console.log("clicked");
-    DateInput = document.getElementById("datetime").value;
-    console.log(DateInput);
+    DateInput = d3.select("#datetime").property("value");
+    // console.log(DateInput);
     if (DateInput.length == 0) { // date value empty
         console.log("without filter the dataset");
         console.log(DateInput);
@@ -57,24 +57,24 @@ function Print_(UFO_sighting){
     let UFOTab = d3.select('ufo-table');
     let tbody_=d3.select("tbody");
     var tr_ = tbody_.selectAll("tr")._groups;
-    // console.log(tr_[0].length);
-    // console.log(tr_);
-    if (tr_[0].length != 0) { // if the table has rows do
-       for (let i = 0; i < tr_[0].length; i++) {
-        tr_[0][i].remove();
-        }
-    }
+    tbody_.html("");
     UFO_sighting.forEach((sighting) => {
-    let row = tbody_.append("tr");
-    // Iterate through each key and value
-     // TABLE BODY.
-    Object.entries(sighting).forEach(([key, value]) => {
-        // td = tr.insertCell()
-        // let text = value;
+        let row = tbody_.append("tr");
+        // Iterate through each key and value
+        // TABLE BODY.
+        Object.entries(sighting).forEach(([key, value]) => {
         var td = row.append("td");
         td.text(value);
         });
     });
+    var form_ = d3.select("form");
+    var button_ = form_.append('button');
+    button_.attr("id", "Reset");
+    button_.attr("class", "btn btn-default");
+    button_.text("Reset");
+    console.log(form_);
+    var button_Reset = d3.select("#Reset"); // select element buton reset
+    button_Reset.on("click", Print_());
 }
 // ================================================================
 
@@ -101,3 +101,82 @@ function Filter_UFO_sighting(sighting) {
     } 
   }
 // ==============================================================
+// var list_ = d3.selectAll("th")._groups.text();
+var filters_ = [];
+const tds = d3.selectAll("th")
+  tds.each(function() {
+    let select = d3.select(this);
+    let opt_ = d3.select(this).text()
+   
+    switch (opt_) {
+        case "Date1":
+            let unique_datetime = tableData.map(ele =>ele.datetime).filter((v, i, a) => a.indexOf(v) === i);
+            unique_datetime.unshift("...");
+            console.log(unique_datetime);
+            lista(select, unique_datetime);
+            break;
+        case "City":
+            let unique_cities = tableData.map(ele =>ele.city).filter((v, i, a) => a.indexOf(v) === i);
+            unique_cities.unshift("City");
+            // d3.select(this).text("");
+            lista(select, unique_cities, "City");
+            break;
+        case "State":
+            let unique_state = tableData.map(ele =>ele.state).filter((v, i, a) => a.indexOf(v) === i);
+            unique_state.unshift("State");
+            // d3.select(this).text("");
+            lista(select, unique_state, "State");
+            break;
+        case "Country":
+            let unique_countries = tableData.map(ele =>ele.country).filter((v, i, a) => a.indexOf(v) === i);
+            unique_countries.unshift("Country");
+            // d3.select(this).text("");
+            lista(select, unique_countries,"Country");
+            break;
+        case "Shape":
+            let unique_shape = tableData.map(ele =>ele.shape).filter((v, i, a) => a.indexOf(v) === i);
+            unique_shape.unshift("Shape");
+            // d3.select(this).text("");
+            lista(select, unique_shape,"Shape");
+            break;             
+        default:
+            break;
+    }
+  })
+// ==========================================================================
+function lista(para1, para2, id){
+var ul_ = d3.select(".list-group");
+var li_ = ul_.append('li');
+    li_.attr("class","filter list-group-item");
+//
+var select_ = li_.append("select")
+ // var select_ = para1.append("select");
+    var options = select_
+    .attr("id", id)
+    .attr("width", "10")
+    .attr("class", "custom-select")
+    
+  	.selectAll('option')
+	.data(para2).enter()
+	.append('option')
+	.text(function (d) { return d; });
+} 
+// ================================================================
+
+// function slect_Option (){
+//     var select = d3.select('body')
+//     .append('select')
+//         .attr('class','select')
+//       .on('change',onchange)
+//   var options = select
+//     .selectAll('option')
+//       .data(data).enter()
+//       .append('option')
+//           .text(function (d) { return d; });
+// }  
+{/* <ul class="list-group" id="filters">
+                      <li class="filter list-group-item">
+                        <label for="date">Enter a Date</label> */}
+
+//   d3.select("#objectID").property("value")
+// d3.select('#myselect').node().value = 'France';
