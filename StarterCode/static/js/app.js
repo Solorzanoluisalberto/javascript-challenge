@@ -15,14 +15,44 @@ var tableData = data;
 
 // =======================================
 Print_(tableData); // one time (upload page)
+ // one time (upload page)
+function Print_2(){
+    Print_(tableData);
+}
 // =======================================
 
 var button_Filter = d3.select("#filter-btn"); // select element buton filter
 var DateInput = ""
-
+var form_ = d3.select(".panel-body");
+var button_ = form_.append('button');
+    button_.attr("id", "Reset1");
+    button_.attr("class", "btn btn-default");
+    button_.text("Reset");
+    button_.attr('onclick', "Print_2()")
+//     console.log(form_);
+// var button_Reset = d3.select("#Reset1");// select element buton reset
+// console.log(button_Reset)
+//     button_Reset.on("click", Print_());
 // =============================================================================
 // onclick function to get date and filter the sightings that match in the dataset
 button_Filter.on("click", function() {
+// ======================================================
+// detecto filtros:
+var select_city = d3.select("#City")
+// var select_state = d3.select('.State option:checked').text();
+// var select_country = d3.select('.Cuntry option:checked').text();
+// var select_shape = d3.select('.Shape option:checked').text();
+
+// console.log(select_city);
+// console.log(select_state);
+// console.log(select_country);
+// console.log(select_shape);
+
+select_city.on("change", function() {
+console.log(d3.select('#City option:checked').text());
+});
+
+// =======================================================
     // Select the current count
     console.log("clicked");
     DateInput = d3.select("#datetime").property("value");
@@ -67,14 +97,7 @@ function Print_(UFO_sighting){
         td.text(value);
         });
     });
-    var form_ = d3.select("form");
-    var button_ = form_.append('button');
-    button_.attr("id", "Reset");
-    button_.attr("class", "btn btn-default");
-    button_.text("Reset");
-    console.log(form_);
-    var button_Reset = d3.select("#Reset"); // select element buton reset
-    button_Reset.on("click", Print_());
+    
 }
 // ================================================================
 
