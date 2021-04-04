@@ -25,7 +25,7 @@ var button_Filter = d3.select("#filter-btn"); // select element buton filter
 var DateInput = ""
 var form_ = d3.select(".panel-body");
 var button_ = form_.append('button');
-    button_.attr("id", "Reset1");
+    button_.attr("id", "Reset1");   // insert element buton Reset
     button_.attr("class", "btn btn-default");
     button_.text("Reset");
     button_.attr('onclick', "Print_2()")
@@ -38,19 +38,19 @@ var button_ = form_.append('button');
 button_Filter.on("click", function() {
 // ======================================================
 // detecto filtros:
-var select_city = d3.select("#City")
-// var select_state = d3.select('.State option:checked').text();
-// var select_country = d3.select('.Cuntry option:checked').text();
-// var select_shape = d3.select('.Shape option:checked').text();
+// var select_city = d3.select("#City")
+// // var select_state = d3.select('.State option:checked').text();
+// // var select_country = d3.select('.Cuntry option:checked').text();
+// // var select_shape = d3.select('.Shape option:checked').text();
 
-// console.log(select_city);
-// console.log(select_state);
-// console.log(select_country);
-// console.log(select_shape);
+// // console.log(select_city);
+// // console.log(select_state);
+// // console.log(select_country);
+// // console.log(select_shape);
 
-select_city.on("change", function() {
-console.log(d3.select('#City option:checked').text());
-});
+// select_city.on("change", function() {
+// console.log(d3.select('#City option:checked').text());
+// });
 
 // =======================================================
     // Select the current count
@@ -63,6 +63,7 @@ console.log(d3.select('#City option:checked').text());
         var UFO_sighting = tableData.filter(Filter_UFO_sighting, DateInput);
         console.log(UFO_sighting);
         Print_(UFO_sighting);
+        // fill_select_options(UFO_sighting); // to fill select options
     } else {
         var go_ = DateExist(DateInput); // valid date?
         switch(go_) { // case valid date
@@ -71,6 +72,7 @@ console.log(d3.select('#City option:checked').text());
             var UFO_sighting = tableData.filter(Filter_UFO_sighting, DateInput);
             console.log(UFO_sighting);
             Print_(UFO_sighting);
+            // fill_select_options(UFO_sighting); // to fill select options
             break;
         default:
             console.log(`it is not a valid date: ${DateInput} `);
@@ -97,7 +99,7 @@ function Print_(UFO_sighting){
         td.text(value);
         });
     });
-    
+    fill_select_options(UFO_sighting); // to fill select options
 }
 // ================================================================
 
@@ -125,6 +127,7 @@ function Filter_UFO_sighting(sighting) {
   }
 // ==============================================================
 // var list_ = d3.selectAll("th")._groups.text();
+function fill_select_options(Dataset_Filtered){
 var filters_ = [];
 const tds = d3.selectAll("th")
   tds.each(function() {
@@ -133,31 +136,31 @@ const tds = d3.selectAll("th")
    
     switch (opt_) {
         case "Date1":
-            let unique_datetime = tableData.map(ele =>ele.datetime).filter((v, i, a) => a.indexOf(v) === i);
+            let unique_datetime = Dataset_Filtered.map(ele =>ele.datetime).filter((v, i, a) => a.indexOf(v) === i);
             unique_datetime.unshift("...");
             console.log(unique_datetime);
             lista(select, unique_datetime);
             break;
         case "City":
-            let unique_cities = tableData.map(ele =>ele.city).filter((v, i, a) => a.indexOf(v) === i);
+            let unique_cities = Dataset_Filtered.map(ele =>ele.city).filter((v, i, a) => a.indexOf(v) === i);
             unique_cities.unshift("City");
             // d3.select(this).text("");
             lista(select, unique_cities, "City");
             break;
         case "State":
-            let unique_state = tableData.map(ele =>ele.state).filter((v, i, a) => a.indexOf(v) === i);
+            let unique_state = Dataset_Filtered.map(ele =>ele.state).filter((v, i, a) => a.indexOf(v) === i);
             unique_state.unshift("State");
             // d3.select(this).text("");
             lista(select, unique_state, "State");
             break;
         case "Country":
-            let unique_countries = tableData.map(ele =>ele.country).filter((v, i, a) => a.indexOf(v) === i);
+            let unique_countries = Dataset_Filtered.map(ele =>ele.country).filter((v, i, a) => a.indexOf(v) === i);
             unique_countries.unshift("Country");
             // d3.select(this).text("");
             lista(select, unique_countries,"Country");
             break;
         case "Shape":
-            let unique_shape = tableData.map(ele =>ele.shape).filter((v, i, a) => a.indexOf(v) === i);
+            let unique_shape = Dataset_Filtered.map(ele =>ele.shape).filter((v, i, a) => a.indexOf(v) === i);
             unique_shape.unshift("Shape");
             // d3.select(this).text("");
             lista(select, unique_shape,"Shape");
@@ -166,11 +169,24 @@ const tds = d3.selectAll("th")
             break;
     }
   })
+}
 // ==========================================================================
 function lista(para1, para2, id){
 var ul_ = d3.select(".list-group");
+// console.log(ul_.nodeChild.length);
+// d3.select(this).selectAll('div > ul');
+
+if (d3.selectAll(`.list-group > .${id}`)) {
+console.log("tiene valor");
+d3.selectAll(`.list-group > .${id}`).remove();
+}
+var pepe = d3.selectAll(".list-group > .reduces") //.remove();
+
+// var pepe = d3.selectAll('.reduced > *')   //
+console.log(pepe);
+var str_Class = "filter list-group-item " + id;
 var li_ = ul_.append('li');
-    li_.attr("class","filter list-group-item");
+    li_.attr("class", str_Class);
 //
 var select_ = li_.append("select")
  // var select_ = para1.append("select");
