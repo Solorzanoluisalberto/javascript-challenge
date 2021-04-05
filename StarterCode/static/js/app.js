@@ -17,12 +17,17 @@ var tableData = data;
 Print_(tableData); // one time (upload page)
  // one time (upload page)
 function Print_2(){
+    d3.select("#datetime").property("value","");
     Print_(tableData);
 }
 // =======================================
-
+var formatTime = d3.timeFormat("%m/%d/%Y");
+var tie = '1/1/2010'
+var tiempo = formatTime(new Date(tie)); // "June 30, 2015"
+console.log(tiempo);
 var button_Filter = d3.select("#filter-btn"); // select element buton filter
 var DateInput = ""
+var sql_ = ""
 var form_ = d3.select(".panel-body");
 var button_ = form_.append('button');
     button_.attr("id", "Reset1");   // insert element buton Reset
@@ -35,22 +40,9 @@ var button_ = form_.append('button');
 //     button_Reset.on("click", Print_());
 // =============================================================================
 // onclick function to get date and filter the sightings that match in the dataset
+var otros = 0;
 button_Filter.on("click", function() {
 // ======================================================
-// detecto filtros:
-// var select_city = d3.select("#City")
-// // var select_state = d3.select('.State option:checked').text();
-// // var select_country = d3.select('.Cuntry option:checked').text();
-// // var select_shape = d3.select('.Shape option:checked').text();
-
-// // console.log(select_city);
-// // console.log(select_state);
-// // console.log(select_country);
-// // console.log(select_shape);
-
-// select_city.on("change", function() {
-// console.log(d3.select('#City option:checked').text());
-// });
 
 // =======================================================
     // Select the current count
@@ -117,14 +109,23 @@ function DateExist(fecha) {
 // ===============================================================
 // function to filter sighting by input date (DateInput)
 function Filter_UFO_sighting(sighting) {
-    var date = new Date(sighting.datetime).toLocaleDateString("en-US");
+    console.log("con boton: " + sql_);
+    // console.log(sighting);
+    console.log(DateInput);
+    // sql_ = "sighting.city ===" + '"searcy"'
+    var date = formatTime(new Date(sighting.datetime));
+    // console.log(date == date1 && sql_)
+    // return (date == date1 && sql_);
+    // console.log("otros: " + otros);
     if (DateInput.length==0) { //If the date value is blank, I present all the data in the dataset.
-        return (date == date);
+       return (date == date);
+       
     } else {
-        var date1 = new Date(DateInput).toLocaleDateString("en-US"); // comparitiondate
+        var date1 = formatTime(new Date(DateInput)); // comparitiondate
         return (date == date1);
     } 
-  }
+
+} 
 // ==============================================================
 // var list_ = d3.selectAll("th")._groups.text();
 function fill_select_options(Dataset_Filtered){
@@ -177,13 +178,9 @@ var ul_ = d3.select(".list-group");
 // d3.select(this).selectAll('div > ul');
 
 if (d3.selectAll(`.list-group > .${id}`)) {
-console.log("tiene valor");
-d3.selectAll(`.list-group > .${id}`).remove();
+    // console.log("tiene valor");
+    d3.selectAll(`.list-group > .${id}`).remove(); // remove if exist
 }
-var pepe = d3.selectAll(".list-group > .reduces") //.remove();
-
-// var pepe = d3.selectAll('.reduced > *')   //
-console.log(pepe);
 var str_Class = "filter list-group-item " + id;
 var li_ = ul_.append('li');
     li_.attr("class", str_Class);
@@ -194,7 +191,7 @@ var select_ = li_.append("select")
     .attr("id", id)
     .attr("width", "10")
     .attr("class", "custom-select")
-    
+    .attr('onchange','F_change("'+id+'")')
   	.selectAll('option')
 	.data(para2).enter()
 	.append('option')
@@ -213,9 +210,93 @@ var select_ = li_.append("select")
 //       .append('option')
 //           .text(function (d) { return d; });
 // }  
-{/* <ul class="list-group" id="filters">
+/* <ul class="list-group" id="filters">
                       <li class="filter list-group-item">
-                        <label for="date">Enter a Date</label> */}
+                        <label for="date">Enter a Date</label> */
 
 //   d3.select("#objectID").property("value")
 // d3.select('#myselect').node().value = 'France';
+// var select_city = d3.select("#City")
+
+// console.log("city selected: "+ select_city);
+function F_change(value_) {
+    DateTimeBox = d3.select("#datetime").property("value");
+    var select_city = d3.select('#City option:checked').text();
+    var select_state = d3.select('#State option:checked').text();
+    var select_country = d3.select('#Country option:checked').text();
+    var select_shape = d3.select('#Shape option:checked').text();
+    console.log(select_city);
+    console.log(select_state);
+    console.log(select_country);
+    console.log(select_shape);
+// if (DateTimeBox.length == 0) {
+//     DateTimeBox = '01/11/2010';
+// }
+
+if (DateTimeBox.length == 0) {
+    switch (value_) {
+        case "City":
+            UFO_sighting = tableData.filter(data => data.city === select_city);
+        break;
+
+        case "State":
+            UFO_sighting = tableData.filter(data => data.state === select_state);
+        case "Country":
+            UFO_sighting = tableData.filter(data => data.country === select_country);
+        case "Shape":
+            UFO_sighting = tableData.filter(data => data.shape === select_shape);
+            
+        default:
+            break;
+    }
+} else {
+    var dateBool = DateExist(DateTimeBox);
+    if (dateBool) {
+        DateInput = formatTime(new Date(DateTimeBox));
+    
+        switch (value_) {
+            case "City":
+                UFO_sighting = tableData.filter(data => formatTime(new Date(data.datetime)) === DateInput && data.city ===  select_city ); 
+                break;
+             case "State":
+                UFO_sighting = tableData.filter(data => formatTime(new Date(data.datetime)) === DateInput && data.state ===  select_state ); 
+             
+             case "Country":
+    
+             default:
+             break;
+        }
+    } else {
+        console.log("fecha invalida");
+    }    
+}
+Print_(UFO_sighting);
+
+
+
+// console.log(d3.select('#City option:checked').text());
+// alert(d3.select('#City option:checked').text()+' \n' + 'date: '+ DateInput );
+// console.log(UFO_sighting);
+
+// var select_city = d3.select("#City");
+// var select_state1 = d3.select('#State option:checked').text();
+// console.log(select_state1);
+// var select_country = d3.select("#Country");
+// var select_shape = d3.select("#Shape");
+
+// sql_ = "";
+// if (select_city !="City") {
+//     sql_ = sql_ + ' date.city== "' + select_city + '"';
+//     // UFO_sighting = tableData.filter(data => data.datetime == data.datetime && data.city =='');
+// }
+// if (select_state != "State") {
+//     sql_ = sql_ + ' date.state == "' + select_state + '"';
+//     }
+// if (select_country != "Country") {
+//     sql_ = sql_ + ' date.country == "' + select_country + '"';
+//     }
+// if (select_shape != "Shape") {
+//     sql_ = sql_ + ' date.shape == "' + select_shape + '"';
+// }
+
+}
