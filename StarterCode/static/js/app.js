@@ -262,6 +262,7 @@ if (DateTimeBox.length == 0) {
                 UFO_sighting = tableData.filter(data => formatTime(new Date(data.datetime)) === DateInput && data.state ===  select_state ); 
              
              case "Country":
+                UFO_sighting = tableData.filter(data => formatTime(new Date(data.datetime)) === DateInput && data.state ===  select_state ); 
     
              default:
              break;
@@ -274,8 +275,6 @@ Print_(UFO_sighting);
 
 
 
-// console.log(d3.select('#City option:checked').text());
-// alert(d3.select('#City option:checked').text()+' \n' + 'date: '+ DateInput );
 // console.log(UFO_sighting);
 
 // var select_city = d3.select("#City");
