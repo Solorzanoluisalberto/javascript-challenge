@@ -1,3 +1,5 @@
+## The initial page is index.html, the code is in the app.js file
+
 # JavaScript Homework - JavaScript and DOM Manipulation
 
 ## Background
